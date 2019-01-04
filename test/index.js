@@ -101,3 +101,22 @@ test('Default errorHandler middleware should be triggered when an error is throw
     t.is(mockRes._getData(), '404 not found');
     t.is(mockRes._getHeaders().foo, 'bar');
 });
+
+test('Sets that references other sets', async t => {
+    t.plan(3);
+
+    const mockReq = httpMocks.createRequest();
+    const mockRes = httpMocks.createResponse();
+
+    createSet('base', [ (req, res) => req.base = true ]);
+    createSet('level1', [ 'base', (req, res) => req.level1 = true ]);
+    createSet('level2', [ 'level1', (req, res) => req.level2 = true ]);
+
+    let fn = applyMiddleware('level2', (req, res) => {
+        t.true(req.base);
+        t.true(req.level1);
+        t.true(req.level2);
+    });
+
+    await fn(mockReq, mockRes);
+});
