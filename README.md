@@ -78,6 +78,44 @@ module.exports = applyMiddleware((req, res) => {
 });
 ```
 
+#### Set references
+Often, the default middleware is enough for most functions, but occasionally, there
+is a need to include other middleware in the request flow. For example, you might
+want to include the default authorization middleware on all requests, but only need
+database init logic in certain places.
+
+In this case, micro-mw allows references to pre-defined middleware sets anywhere that
+a middleware function could be specified.
+
+Here are a couple of different ways this feature could be used:
+
+- Reference one set from another
+    ```
+    const { createSet } = require('micro-mw');
+    
+    createSet('auth', [ authUserMw, getProfileMw, checkScopesMw ]);
+    createSet('db', [ initDbMw ]);
+    
+    createSet('default', [ 'auth', 'db' ]);
+    ```
+
+- Chain sets together
+    ```
+    const { applyMiddleware } = require('micro-mw');
+    
+    module.exports = applyMiddleware([ 'db', 'auth', myCustomMwFn ], (req, res) => {
+      // Normal route logic
+    });
+    ```
+
+Whenever micro-mw encounters a string where a middleware function was expected, it
+will automatically assume that it is a set reference. Order is important here, as
+the referenced set will replace the string pointer in that exact location within
+the array.
+
+If a referenced set doesn't exist, a runtime error will occur and will be processed
+by the default error handler.
+
 ## Error handling
 By default, micro-mw will catch all sync and async errors that occur within a
 middleware or route handler and return a response to the client.
