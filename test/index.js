@@ -1,6 +1,7 @@
 const test = require('ava');
 const { applyMiddleware, createSet, getSet } = require('../lib');
 const httpMocks = require('node-mocks-http');
+const { run } = require('micro');
 
 function reqUserMiddleware(req, res) {
     req.user = { id: 'foobar' };
@@ -119,4 +120,21 @@ test('Sets that references other sets', async t => {
     });
 
     await fn(mockReq, mockRes);
+});
+
+test('Async/Await function with return', async t => {
+    t.plan(1);
+
+    const mockReq = httpMocks.createRequest();
+    const mockRes = httpMocks.createResponse();
+
+    let fn = applyMiddleware([], async (req, res) => {
+        return {
+            hello: 'world',
+        };
+    });
+
+    await run(mockReq, mockRes, fn);
+
+    t.deepEqual(JSON.parse(mockRes._getData()), { hello: 'world' });
 });
