@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mhamann/micro-mw.svg?branch=master)](https://travis-ci.org/mhamann/micro-mw)
+
 # micro-mw
 
 > a simple helper to add middleware to your zeit/micro or Now 2.0 functions.
@@ -6,7 +8,7 @@ This is a set of simple helpers to create and apply middleware to your functions
 using either [Zeit](https://zeit.co/)'s [micro](https://github.com/zeit/micro) framework
 or Zeit Now 2.0 serverless functions.
 
-The entire runtime is less than 100 lines long and only depends on `micro` itself.
+The entire runtime is less than 100 lines long and depends only on `micro` itself.
 
 ## Install
 
