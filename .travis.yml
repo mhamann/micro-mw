@@ -1,3 +1,11 @@
 language: node_js
 node_js:
-  - "lts/*"
+- lts/*
+deploy:
+  provider: npm
+  email: matthew.hamann@gmail.com
+  api_key:
+    secure: kZttKOhQC+p5RFFzuzr8cUXmMZ5dwf7JiGFYA9/ai2a4wtWhliyCQ+9RNnDfubXAzGW7qBIbLKrI+3Xz6ufL17Npj5UTyXwrVYgNAynxoU38xCga6u23TVOGo0qi5PPfPMPtQMiLpleFJczNWkT9X11jqZ6A1Y9gC7D4xdBuasGKkAXxSEnoN4nV1gIU8zYBsOuXr2lc6xC+kbTr7tEGpyEA82LtDyf7NPUwxGkoBqq29JzW48+4irloNVjm1KBzhPvhA7L1XKzBcHwSDYuV/HNUD44ZUCc//M4uVgEXDj7dPkAzlOJVtrlQqlGMXEvbYfRgjr0wBu0yIMd16grwyprjVkPPtGzrn20pWwQITuU3uRjUGmfW/IWBRAYZwiSAy6atQ6g7dLqovxC0Cz3zmVx/faA0QydSC3AZyIPetSlvuYNqtA0EB4wKMbE3kU803Q3MbhOaEHuoIUKHQ9hz3c8AS5p3hjdETmTfT0rJnHxLylMyel0GIk33MsA3YcYVByxn8HHYM/8SZhA8hxr66fho722ZX0Oek75/08juENbo/0EBxHkxkLYeLCtQRHWpaGh8Fc3ylrR7sAQ5WGGwy9rG3PGRth1Ktc1ZLkllRPky4cqjjsmPAfZkVACaoohn5qXxLqwbE3Iy/imOHaf3fGuNS7v39XaalVhx2GOHOWs=
+  on:
+    tags: true
+    repo: mhamann/micro-mw
