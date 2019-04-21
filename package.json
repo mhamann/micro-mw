@@ -23,9 +23,10 @@
   },
   "homepage": "https://github.com/mhamann/micro-mw#readme",
   "devDependencies": {
-    "ava": "^1.0.1",
+    "auto-changelog": "^1.13.0",
+    "ava": "^1.4.1",
     "node-mocks-http": "^1.7.3",
-    "nyc": "^13.1.0"
+    "nyc": "^14.0.0"
   },
   "dependencies": {
     "micro": "^9.3.3"
