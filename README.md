@@ -193,6 +193,38 @@ note of a few key differences:
 - Error handlers should typically avoid throwing errors themselves, as that will
   likely result in no response being sent to the client.
 
+### Halting request execution
+There may be occasions during the lifecycle of a request, where middleware needs
+to send a response early. An example of this scenario might be when using CORS
+and responding to an `OPTIONS` request from a browser. In this case, the CORS
+middleware may send a response prior to all of the middleware or even the request
+handler being run.
+
+If the remaining middleware and handlers run, an exception may be thrown when an
+attempt to send another response occurs.
+
+The `stopRequest` function is provided for a middleware function to signal that a
+response has been sent and that any remaining steps in the request should be canceled.
+
+Consider the following sample:
+
+```js
+const { applyMiddleware, stopRequest } = require('micro-mw');
+
+function middlewareFn1(req, res) {
+  // Send a response early
+  ...
+  stopRequest(req);
+}
+
+module.exports = applyMiddleware([ middlewareFn1, middlewareFn2 ], (req, res) => {
+  // Normal request / response handling logic here
+});
+```
+
+In this scenario, `middlewareFn1` will run, but by calling `stopRequest(req)`, the
+remaining handlers (i.e. `middlewareFn2` and the normal request/response handler)
+will not be called.
 
 ## Contributing
 
