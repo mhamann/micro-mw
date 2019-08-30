@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "ava test/index.js",
-    "coverage": "nyc ava"
+    "coverage": "nyc ava",
+    "changelog": "auto-changelog"
   },
   "repository": {
     "type": "git",
