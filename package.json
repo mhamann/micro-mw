@@ -1,6 +1,6 @@
 {
   "name": "micro-mw",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "a simple helper to add middleware to your zeit/micro service",
   "main": "lib/index.js",
   "scripts": {
