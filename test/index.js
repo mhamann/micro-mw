@@ -1,5 +1,5 @@
 const test = require('ava');
-const { applyMiddleware, createSet, getSet } = require('../lib');
+const { applyMiddleware, createSet, getSet, stopRequest } = require('../lib');
 const httpMocks = require('node-mocks-http');
 const { run } = require('micro');
 
@@ -137,4 +137,33 @@ test('Async/Await function with return', async t => {
     await run(mockReq, mockRes, fn);
 
     t.deepEqual(JSON.parse(mockRes._getData()), { hello: 'world' });
+});
+
+test('Stop middleware processing when requested', async t => {
+    t.plan(3);
+
+    const mockReq = httpMocks.createRequest();
+    const mockRes = httpMocks.createResponse();
+
+    const runMw = function(req, res) {
+        req.runMw = true;
+    }
+
+    const stopMw = function(req, res) {
+        stopRequest(req);
+    }
+
+    const skipMw = function(req, res) {
+        req.skipMw = true;
+    }
+
+    let fn = applyMiddleware([runMw, stopMw, skipMw], (req, res) => {
+        // No-op
+    });
+
+    await fn(mockReq, mockRes);
+
+    t.true(mockReq.runMw);
+    t.true(mockReq._microMwTerminate);
+    t.falsy(mockReq.skipMw);
 });
